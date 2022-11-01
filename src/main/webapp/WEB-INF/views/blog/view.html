@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Xem blog</title>
+</head>
+<body>
+<h1>Chi tiết blog</h1>
+<p>
+    <a href="/blogs">Danh sách</a>
+</p>
+<th:block th:if="${message}">
+    <p th:text="${message}"></p>
+</th:block>
+<form th:action="@{/view-blog}" th:object="${blog}">
+    <table>
+        <tr>
+            <td>Tên Blog:</td>
+            <td><input type="text" th:field="*{nameBlog}"/></td>
+        </tr>
+        <tr>
+            <td>Tóm tắt:</td>
+            <td><input type="text" th:field="*{quickView}"/></td>
+        </tr>
+        <tr>
+            <td>Nội dung chi tiết:</td>
+            <td><textarea th:field="*{content}"/></td>
+        </tr>
+        <tr>
+            <td>Thể loại:</td>
+            <td><input disabled th:field="*{category.nameCategory}"/></td>
+        </tr>
+    </table>
+</form>
+</body>
+</html>

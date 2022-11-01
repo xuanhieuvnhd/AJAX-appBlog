@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Danh sách</title>
+</head>
+<body>
+<a href="/blogs/create">Tạo mới blog</a>
+<a href="/">Về trang chủ</a>
+<h1>Blogs</h1>
+<table border="1">
+    <tr>
+        <th>Tên</th>
+        <th>Tóm tắt nội dung</th>
+        <th>Nội dung chi tiết</th>
+        <th>Thể loại</th>
+        <th>Cập nhật</th>
+        <th>Xoá</th>
+    </tr>
+    <th:block th:each="blog : ${blogs}">
+        <tr>
+            <td th:text="${blog.nameBlog}"></td>
+            <td th:text="${blog.quickView}"></td>
+            <td><a th:href="@{/blogs/__${blog.id}__}">Xem</a></td>
+            <td th:text="${blog.category.nameCategory}"></td>
+            <td><a th:href="@{/blogs/__${blog.id}__/edit}">Sửa</a></td>
+            <td><a th:href="@{/blogs/__${blog.id}__/delete}">Xoá</a></td>
+        </tr>
+    </th:block>
+</table>
+<a href="/category"><h3>Danh sách thể loại blog</h3></a>
+</body>
+</html>
+
+<!--<!DOCTYPE html>-->
+<!--<html lang="en" xmlns:th="http://www.thymeleaf.org">-->
+<!--<head>-->
+<!--    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>-->
+<!--    <title>Danh sách blog</title>-->
+<!--    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>-->
+<!--    <script type="text/javascript">-->
+<!--        function addNewBlog() {-->
+<!--            //Lấy dữ liệu-->
+<!--            let nameBlog = $('#nameBlog').val();-->
+<!--            let quickView = $('#quickView').val();-->
+<!--            let content = $('#content').val();-->
+<!--            let newBlog = {-->
+<!--                nameBlog: nameBlog,-->
+<!--                quickView: quickView,-->
+<!--                content: content-->
+<!--            };-->
+<!--            // Gọi Ajax-->
+<!--            $.ajax({-->
+<!--                headers: {-->
+<!--                    'Accept': 'application/json',-->
+<!--                    'Content-Type': 'application/json'-->
+<!--                },-->
+<!--                type: "POST",-->
+<!--                data: JSON.stringify(newBlog),-->
+<!--                //tên API-->
+<!--                url: "http://localhost:8080/blogs",-->
+<!--                //Xử lý khi thành công-->
+<!--                success: successHandler-->
+
+<!--            });-->
+<!--            //chặn sự kiện mặc định của thẻ-->
+<!--            event.preventDefault();-->
+<!--        }-->
+
+<!--        function successHandler() {-->
+<!--            $.ajax({-->
+<!--                type: "GET",-->
+<!--                //tên API-->
+<!--                url: "http://localhost:8080/blogs",-->
+<!--                //xử lý khi thành công-->
+<!--                success: function (data) {-->
+<!--                    // Hiển thị danh sách ở đây-->
+<!--                    let content = '    <tr>\n' +-->
+<!--                        '        <td>Tên blog</td>\n' +-->
+<!--                        '        <td>Tóm tắt</td>\n' +-->
+<!--                        '        <td>Nội dung</td>\n' +-->
+<!--                        '        <td>Thể loại</td>\n' +-->
+<!--                        '        <td>Xoá</td>\n' +-->
+<!--                        '    </tr>';-->
+<!--                    for (let i = 0; i < data.length; i++) {-->
+<!--                        content += getBlog(data[i]);-->
+<!--                    }-->
+<!--                    document.getElementById('blogList').innerHTML = content;-->
+<!--                }-->
+<!--            });-->
+<!--        }-->
+
+<!--        function getBlog(blog) {-->
+<!--            return `<tr><td >${blog.nameBlog}</td><td >${blog.quickView}</td><td >${blog.content}</td>+-->
+<!--                <td >${blog.category.name}</td>`+-->
+<!--                    `<td><a class="deleteBlog" onclick="deleteById($(this))" href="${blog.id}">Delete</a></td></tr>`;-->
+<!--        }-->
+<!--        function deleteById(a){-->
+<!--            //lay du lieu-->
+<!--            // let a = $(this);-->
+<!--            let smartphoneId = a.attr("href");-->
+<!--            // goi ajax-->
+<!--            $.ajax({-->
+<!--                type: "DELETE",-->
+<!--                //tên API-->
+<!--                url: `http://localhost:8080/blogs/${blogId}`,-->
+<!--                //xử lý khi thành công-->
+<!--                success: function (data) {-->
+<!--                    successHandler();-->
+<!--                    // a.parent().parent().remove();-->
+<!--                }-->
+
+<!--            });-->
+<!--            //chặn sự kiện mặc định của thẻ-->
+<!--            event.preventDefault();-->
+<!--        }-->
+<!--        // $(document).ready(function () {-->
+<!--        //     //sư kiện nào thực hiện Ajax-->
+<!--        //     $('.deleteBlog').click(function (event) {-->
+<!--        //         //lay du lieu-->
+<!--        //         let a = $(this);-->
+<!--        //         let blogId = a.attr("href");-->
+<!--        //         // goi ajax-->
+<!--        //         $.ajax({-->
+<!--        //             type: "DELETE",-->
+<!--        //             //tên API-->
+<!--        //             url: `/blogs/${blogId}`,-->
+<!--        //             //xử lý khi thành công-->
+<!--        //             success: function (data) {-->
+<!--        //                 a.parent().parent().remove();-->
+<!--        //             }-->
+<!--        //-->
+<!--        //         });-->
+<!--        //         //chặn sự kiện mặc định của thẻ-->
+<!--        //         event.preventDefault();-->
+<!--        //     });-->
+<!--        // })-->
+<!--    </script>-->
+<!--</head>-->
+<!--<body>-->
+<!--<form id="add-blog">-->
+<!--    <table border="1">-->
+<!--        <tr>-->
+<!--            <td>Tên blog:</td>-->
+<!--            <td><input type="text" id="nameBlog" placeholder="nhập tên blog"></td>-->
+<!--        </tr>-->
+<!--        <tr>-->
+<!--            <td>Tóm tắt:</td>-->
+<!--            <td><input type="text" id="quickView" placeholder="nhập tóm tắt"></td>-->
+<!--        </tr>-->
+<!--        <tr>-->
+<!--            <td>Nội dung chi tiết:</td>-->
+<!--            <td><input type="text" id="content" placeholder="nhập nội dung"></td>-->
+<!--        </tr>-->
+<!--        <tr>-->
+<!--            <td></td>-->
+<!--            <td><input type="submit" value="Thêm" onclick="addNewBlog()"></td>-->
+<!--        </tr>-->
+<!--    </table>-->
+<!--</form>-->
+<!--<h1>Danh sách</h1>-->
+<!--<table border="1" id="blogList">-->
+<!--    <tr>-->
+<!--        <td>Tên blog</td>-->
+<!--        <td>Tóm tắt</td>-->
+<!--        <td>Nội dung chi tiết</td>-->
+<!--        <td>Xoá</td>-->
+<!--    </tr>-->
+<!--    <th:block th:each="blog: ${blogs}">-->
+<!--        <tr>-->
+<!--            <td th:text="${blog.nameBlog}"></td>-->
+<!--            <td th:text="${blog.quickView}"></td>-->
+<!--            <td th:text="${blog.content}"></td>-->
+<!--            <td><a class="deleteBlog" th:href="${blog.getId()}">Xoá</a></td>-->
+<!--        </tr>-->
+<!--    </th:block>-->
+<!--</table>-->
+<!--<a href="/">Quay lại Menu</a>-->
+<!--</body>-->
+<!--</html>-->

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Xoá blog</title>
+</head>
+<body>
+<h1>Xoá blog</h1>
+<h2>Bạn có chắc?</h2>
+<p>
+    <a href="/blogs">Danh sach blog</a>
+</p>
+<form th:action="@{/blogs/delete}" th:object="${blog}" method="post">
+    <input th:type="hidden" name="id" th:field="*{id}">
+    <table>
+        <tr>
+            <td>Tên Blog:</td>
+            <td><input type="text" th:field="*{nameBlog}"/></td>
+        </tr>
+        <tr>
+            <td>Tóm tắt:</td>
+            <td><input type="text" th:field="*{quickView}"/></td>
+        </tr>
+        <tr>
+            <td>Nội dung chi tiết:</td>
+            <td><textarea th:field="*{content}"/></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td><input type="submit" value="Xoá"></td>
+        </tr>
+        <tr>
+            <td>Category:</td>
+            <td><input disabled th:field="*{category.nameCategory}"/></td>
+        </tr>
+    </table>
+</form>
+</body>
+</html>

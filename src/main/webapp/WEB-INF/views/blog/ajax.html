@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Blogs</title>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script type="text/javascript" th:inline="javascript">
+        $(document).ready(function () {
+
+            $('#searchForm').submit(function (event) {
+                var nameBlog = $('#nameBlog').val();
+                var quickView = $('#quickView').val();
+                var content = $('#content').val();
+                var json = {"nameBlog": nameBlog, "quickView": quickView, "content": content};
+                $.ajax({
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    type: "POST",
+                    data: JSON.stringify(json),
+                    url: "/blog/ajax",
+                    success: function (res) {
+                        var respContent = "";
+                        var blogs = res;
+                        respContent += "<tr>\n" +
+                            "        <th>Tên</th>\n" +
+                            "        <th>Tóm tắt</th>\n" +
+                            "        <th>Nội dung chi tiết</th>\n" +
+                            "        <th>Thể loại</th>\n" +
+                            "        <th>Cập nhật Blog</th>\n" +
+                            "        <th>Xoá Blog</th>\n" +
+                            "    </tr>\n";
+                        for (i = 0; i < blogs.length; i++) {
+                            respContent += "        <tr>\n" +
+                                "            <td> " + blogs[i].id + "</td>\n" +
+                                "            <td> " + blogs[i].nameBlog + "</td>\n" +
+                                "            <td> " + blogs[i].quickView + "</td>\n" +
+                                "            <td> " + blogs[i].content + "</td>\n" +
+                                "            <td> " + blogs[i].category.name + "</td>\n" +
+                                "            <td><a href=\"\/blogs\/" + blogs[i].id + "\/edit\">Sửa</a></td>\n" +
+                                "            <td><a href=\"\/blogs\/" + blogs[i].id + "\/delete\">Xoá</a></td>\n" +
+                                "        </tr>\n";
+                        }
+                        $("#searchResult").html(respContent);
+                    }
+                });
+                event.preventDefault();
+            });
+        });
+        /*]]>*/
+    </script>
+</head>
+<body>
+<a href="/blogs/create">Tạo mới blog</a>
+<h1>Blogs</h1>
+<form id="searchForm" th:object="${blog}">
+    <table>
+        <tr>
+            <td>Tên Blog:</td>
+            <td><input type="text" th:field="*{nameBlog}"/></td>
+        </tr>
+        <tr>
+            <td>Tóm tắt:</td>
+            <td><input type="text" th:field="*{quickView}"/></td>
+        </tr>
+        <tr>
+            <td>Nội dung chi tiết:</td>
+            <td><textarea th:field="*{content}"/></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td><input type="submit" value="Search Blog"></td>
+        </tr>
+        <tr>
+            <td>Thể loại:</td>
+            <td>
+                <select th:field="*{category}">
+                    <option th:each="c : ${categories}" th:value="${c.id}" th:text="${c.nameCategory}"></option>
+                </select>
+            </td>
+        </tr>
+    </table>
+</form>
+
+
+<table id="searchResult" border="1">
+</table>
+<a href="/category"><h3>Danh sách thể loại</h3></a>
+</body>
+</html>

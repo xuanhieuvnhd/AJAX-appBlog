@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Thể loại</title>
+</head>
+<body>
+<a href="/create-category">Tạo mới</a>
+<a href="/">Về trang chủ</a>
+<h1>Thể loại blog</h1>
+<table border="1">
+    <tr>
+        <th>Tên</th>
+        <th>Xem</th>
+        <th>Sửa</th>
+        <th>Xoá</th>
+    </tr>
+    <th:block th:each="category : ${categories}">
+        <tr>
+            <td th:text="${category.nameCategory}"></td>
+            <td><a th:href="@{/view-category/__${category.id}__ }">Xem</a></td>
+            <td><a th:href="@{/edit-category/__${category.id}__ }">Sửa</a></td>
+            <td><a th:href="@{/delete-category/__${category.id}__ }">Xoá</a></td>
+        </tr>
+    </th:block>
+</table>
+<a href="/blogs"><h3>Danh sách blog</h3></a>
+</body>
+</html>

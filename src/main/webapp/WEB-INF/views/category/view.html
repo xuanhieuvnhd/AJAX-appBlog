@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Xem thể loại</title>
+</head>
+<body>
+<h1>Xem thể loại: <span th:text="${category.nameCategory}"></span></h1>
+<p>
+    <a href="/category">Danh sách thể loại</a>
+</p>
+<table border="1">
+    <tr>
+        <th>Tên blog</th>
+        <th>Tóm tắt nội dung</th>
+        <th>Chi tiết nội dung</th>
+    </tr>
+    <th:block th:each="blog : ${blogs}">
+        <tr>
+            <td th:text="${blog.nameBlog}"></td>
+            <td th:text="${blog.quickView}"></td>
+            <td th:text="${blog.category.nameCategory}"></td>
+        </tr>
+    </th:block>
+</table>
+</body>
+</html>

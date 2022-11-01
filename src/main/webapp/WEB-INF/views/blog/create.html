@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Tạo mới blog</title>
+</head>
+<body>
+<h1>Tạo mới blog</h1>
+<p>
+    <a href="/blogs">Danh sách blog</a>
+</p>
+<th:block th:if="${message}">
+    <p th:text="${message}"></p>
+</th:block>
+<form id="newBlogForm" th:action="@{/blogs/create}" th:object="${blog}" method="post">
+    <table>
+        <tr>
+            <td>Tên:</td>
+            <td><input type="text" th:field="*{nameBlog}"/></td>
+        </tr>
+        <tr>
+            <td>Tóm tắt:</td>
+            <td><input type="text" th:field="*{quickView}"/></td>
+        </tr>
+        <tr>
+            <td>Nội dung chi tiết:</td>
+            <td><textarea th:field="*{content}"/></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td><input type="submit" value="Tạo"></td>
+        </tr>
+        <tr>
+            <td>Thể loại:</td>
+            <td>
+                <select th:field="*{category}">
+                    <option th:each="c : ${categories}" th:value="${c.id}" th:text="${c.nameCategory}"></option>
+                </select>
+            </td>
+        </tr>
+    </table>
+</form>
+</body>
+</html>
